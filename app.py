@@ -156,7 +156,7 @@ def predict_tweet():
     if os.path.exists('file.txt'):
         os.remove('file.txt')
 
-    os.system('python3 tweep.py -u '+y+' -o file.txt')
+    os.system('python3 tweep.py -u '+y+' --limit 500 -o file.txt')
     texts = []
     file = open('file.txt', 'r')
     for line in file:
