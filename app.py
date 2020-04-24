@@ -8,6 +8,7 @@ import re
 from bs4 import BeautifulSoup
 import os
 import keras
+import preprocessor as p
 
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
@@ -144,6 +145,52 @@ def predict():
 
     return render_template('index.html', prediction_text=predict_classes, length=int(len(predict_classes)), sen=lines, name='name')
 
+@app.route('/predict_tweet',methods=['POST'])
+def predict_tweet():
+    '''
+    For rendering results on HTML GUI
+    '''
+    for x in request.form.values():
+        print(x)
+    y = x
+    if os.path.exists('file.txt'):
+        os.remove('file.txt')
+
+    os.system('python3 tweep.py -u '+y+' -o file.txt')
+    texts = []
+    file = open('file.txt', 'r')
+    for line in file:
+        text = line.split('<'+y+'>')[1].strip()
+        text = p.clean(text)
+        text = text.lower().replace('[^\w\s]',' ').replace('\s\s+', ' ')
+        if len(text.split())>3:
+            print(text)
+            texts.append(clean_str(text))
+
+    tokenizer = pickle.load(open('tokenizer-train.pkl','rb'))
+    tokenizer.fit_on_texts(texts)
+    sequences = tokenizer.texts_to_sequences(texts)
+    MAX_SEQUENCE_LENGTH = 31
+    
+    data = pad_sequences(sequences, maxlen=MAX_SEQUENCE_LENGTH, padding='post')
+    indices = np.arange(data.shape[0])
+    data = data[indices]
+    x_test = data[:]
+    json_file = open('model.json', 'r')
+    loaded_model_json = json_file.read()
+    json_file.close()
+    loaded_model = model_from_json(loaded_model_json)
+    loaded_model.load_weights("model.h5")
+    
+    # evaluate loaded model on test data
+    loaded_model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
+ 
+    prediction = loaded_model.predict(x_test)
+    predict_classes = prediction.argmax(axis=-1)
+
+    #output = round(prediction[0], 2)
+
+    return render_template('index.html', prediction_text2=predict_classes, length2=int(len(predict_classes)), user=y)
 
 if __name__ == "__main__":
     app.run(debug=True)

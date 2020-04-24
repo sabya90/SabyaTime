@@ -50,6 +50,37 @@ for (i = 0; i < 5; i++) {
     
    <br>
    <br>
+
+<form action="{{ url_for('predict_tweet')}}"method="post"id="myform2"></form>
+<table width="40%" border="1" align="center">
+        <tr><td width="50%">
+        <input type="text" name="textdata" placeholder="Paste Exact Twitter Username" required="required" form="myform2"/>
+        </td><td width="50%" align="center">
+        <button type="submit" class="btn btn-primary btn-block btn-large" form="myform2">Click</button></td>
+        </tr>
+        <tr><td colspan="2" align="center">
+{%if user%}
+      {% set p = 0 %}
+      {% set pr = 0 %}
+      {% set f = 0 %}
+      {% for i in range(0, length2) %} 
+             {% if prediction_text2[i]==0 %}
+                   {%set p=p+1%}
+             {% elif prediction_text2[i]==1 %}
+                   {%set pr=pr+1%}
+             {% else %}
+                   {%set f=f+1%}
+             {% endif %}
+      {%endfor%}
+
+      {%if (p >= pr) and (p >= f)%}
+           Hello, {{user}}! <I>You are <font color='red'>past</font> oriented.</I>
+      {%elif (pr >= p) and (pr >= f)%}
+           Hello, {{user}}! <I>You are <font color='red'>present</font> oriented.</I>
+      {%else%}
+           Hello, {{user}}! <I>You are <font color='red'>future</font> oriented.</I>
+      {%endif%}
+{%endif%}</td></tr></table>
  </div>
 
 
