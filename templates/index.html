@@ -3,30 +3,53 @@
 <!--From https://codepen.io/frytyler/pen/EGdtg-->
 <head>
   <meta charset="UTF-8">
-  <title>ML API</title>
+  <title>SABYASACHI TIME API</title>
   <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
   
+<script>
+function myFunction() {
+  var text = "";
+var i;
+for (i = 0; i < 5; i++) {
+  text += "The number is " + i + "<br>";
+} 
+}
+</script>
 </head>
 
 <body>
  <div class="login">
-	<h1>Predict Salary Analysis</h1>
+	<h1 align="center">Time Psychology Analysis</h1>
 
      <!-- Main Input For Receiving Query to our ML -->
-    <form action="{{ url_for('predict')}}"method="post">
-    	<input type="text" name="experience" placeholder="Experience" required="required" />
-        <input type="text" name="test_score" placeholder="Test Score" required="required" />
-		<input type="text" name="interview_score" placeholder="Interview Score" required="required" />
-
-        <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
-    </form>
-
+    <form action="{{ url_for('predict')}}"method="post"id="myform"></form>
+    	<!--<input type="text" name="textdata" placeholder="Write Few Sentences" required="required" />-->
+        <table width="40%" border="1" align="center">
+        <tr><td colspan="2">
+        <textarea name="textdata" rows="20" cols="71" placeholder="Write a Few Sentences Separated by Newlines" required="required" form="myform"></textarea>
+        </td></tr>
+        <tr><td width="50%" align="center">
+        <button type="submit" class="btn btn-primary btn-block btn-large" form="myform">Show Results</button></td>
+        <td width="50%" align="center"><button type="reset" class="btn btn-primary btn-block btn-large" form="myform">Reset</button></td>
+        </tr>
+        <tr><td colspan="2" align="center">
+               {%for i in range(0, len)%} 
+                     {% if prediction_text[i]==0 %}
+                          <li>Sentence: <I>'{{sen[i]}}'</I>, Tag: Past</li> 
+                     {% elif prediction_text[i]==1 %}
+                          <li>Sentence: <I>'{{sen[i]}}'</I>, Tag: Present</li> 
+                     {% else %}
+                          <li>Sentence: <I>'{{sen[i]}}'</I>, Tag: Future</li>
+                     {% endif %}
+               {%endfor%}
+        </td></tr></table>
+    
    <br>
    <br>
-   {{ prediction_text }}
+   
 
  </div>
 
