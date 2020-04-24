@@ -142,7 +142,7 @@ def predict():
 
     #output = round(prediction[0], 2)
 
-    return render_template('index.html', prediction_text=predict_classes, len=len(predict_classes), sen=lines)
+    return render_template('index.html', prediction_text=predict_classes, length=int(len(predict_classes)), sen=lines, name='name')
 
 
 if __name__ == "__main__":

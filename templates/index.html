@@ -36,21 +36,20 @@ for (i = 0; i < 5; i++) {
         <td width="50%" align="center"><button type="reset" class="btn btn-primary btn-block btn-large" form="myform">Reset</button></td>
         </tr>
         <tr><td colspan="2" align="center">
-               {%for i in range(0, len)%} 
+{%if name%}
+                     {% for i in range(0, length) %} 
                      {% if prediction_text[i]==0 %}
-                          <li>Sentence: <I>'{{sen[i]}}'</I>, Tag: Past</li> 
+                     <li>Sentence: <I>'{{sen[i]}}'</I>, Tag: Past</li> 
                      {% elif prediction_text[i]==1 %}
-                          <li>Sentence: <I>'{{sen[i]}}'</I>, Tag: Present</li> 
+                     <li>Sentence: <I>'{{sen[i]}}'</I>, Tag: Present</li> 
                      {% else %}
-                          <li>Sentence: <I>'{{sen[i]}}'</I>, Tag: Future</li>
+                     <li>Sentence: <I>'{{sen[i]}}'</I>, Tag: Future</li>
                      {% endif %}
-               {%endfor%}
-        </td></tr></table>
+                     {%endfor%}
+{%endif%}</td></tr></table>
     
    <br>
    <br>
-   
-
  </div>
 
 
