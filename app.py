@@ -57,93 +57,86 @@ def predict():
     #line = x
     #print(line)
     lines = x.split('\r\n')
+    if len(lines)<3:
+        return render_template('index.html', lerror='Please write atleast Three sentences!')
+    elif len(lines)>50:
+        return render_template('index.html', lerror='Number of Sentences Exceed current Support!')
     #print(y)
     #line = re.sub(' +', ' ', y)
-    print(lines)
-    #int_features = [int(x) for x in request.form.values()]
-    #final_features = [np.array(int_features)]
-    #prediction = model.predict(final_features)
+    else:
+        print(lines)
+        #int_features = [int(x) for x in request.form.values()]
+        #final_features = [np.array(int_features)]
+        #prediction = model.predict(final_features)
 
-    #training data processing
-    texts = []
-    texts1 = []
-    labels = []
-    
-    #Process the user test data
-    #data_user = pd.read_csv('data/temporal-test.tsv', sep='\t')
-    #print (data_user.shape)
-    #print (data_user.shape[0]) # number of rows in traing set
-    #total_usertesta = data_user.shape[0]
+        #training data processing
+        texts = []
 
-    #text1 = BeautifulSoup(x, "lxml")
-    #print (text1)
-    #texts1.append(clean_str(text1.get_text()))
-    #print (texts1)
-    for idx in range(0, len(lines)):
-        text = BeautifulSoup(lines[idx], "lxml")
-        #print (text)
-        texts.append(clean_str(text.get_text()))
-        #labels.append(data_user.temporality[idx])
     
-    # Tokenize the data    
+        #Process the user test data
+        #data_user = pd.read_csv('data/temporal-test.tsv', sep='\t')
+        #print (data_user.shape)
+        #print (data_user.shape[0]) # number of rows in traing set
+        #total_usertesta = data_user.shape[0]
     
-    #tokenizer = Tokenizer(num_words=MAX_NB_WORDS)
-    tokenizer = pickle.load(open('tokenizer-train.pkl','rb'))
-    tokenizer.fit_on_texts(texts)
-    sequences = tokenizer.texts_to_sequences(texts)
+        #text1 = BeautifulSoup(x, "lxml")
+        #print (text1)
+        #texts1.append(clean_str(text1.get_text()))
+        #print (texts1)
+        for idx in range(0, len(lines)):
+            text = BeautifulSoup(lines[idx], "lxml")
+            #print (text)
+            texts.append(clean_str(text.get_text()))
+            #labels.append(data_user.temporality[idx])
     
-    #print(len(sequences))
+        # Tokenize the data    
+    
+        #tokenizer = Tokenizer(num_words=MAX_NB_WORDS)
+        tokenizer = pickle.load(open('tokenizer-train.pkl','rb'))
+        tokenizer.fit_on_texts(texts)
+        sequences = tokenizer.texts_to_sequences(texts)
+    
+        #print(len(sequences))
     
     
-    MAX_SEQUENCE_LENGTH = 31
+        MAX_SEQUENCE_LENGTH = 31
     
-    data = pad_sequences(sequences, maxlen=MAX_SEQUENCE_LENGTH, padding='post')
+        data = pad_sequences(sequences, maxlen=MAX_SEQUENCE_LENGTH, padding='post')
     
-    #labels = to_categorical(np.asarray(labels))
-    #print('Shape of data tensor:', data.shape)
-    #print('Shape of label tensor:', labels.shape)
-    indices = np.arange(data.shape[0])
+        #labels = to_categorical(np.asarray(labels))
+        #print('Shape of data tensor:', data.shape)
+        #print('Shape of label tensor:', labels.shape)
+        indices = np.arange(data.shape[0])
     
-    #np.random.shuffle(indices)
-    data = data[indices]
-    #labels = labels[indices]
+        #np.random.shuffle(indices)
+        data = data[indices]
+        #labels = labels[indices]
     
-    #user test
-    x_test = data[:]
-    #y_test = labels[:]
+        #user test
+        x_test = data[:]
+        #y_test = labels[:]
     
-    json_file = open('model.json', 'r')
-    loaded_model_json = json_file.read()
-    json_file.close()
-    loaded_model = model_from_json(loaded_model_json)
-    # load weights into new model
-    loaded_model.load_weights("model.h5")
-    #print("Loaded model from disk")
+        json_file = open('model.json', 'r')
+        loaded_model_json = json_file.read()
+        json_file.close()
+        loaded_model = model_from_json(loaded_model_json)
+        # load weights into new model
+        loaded_model.load_weights("model.h5")
+        #print("Loaded model from disk")
      
-    # evaluate loaded model on test data
-    loaded_model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
-    #score = loaded_model.evaluate(x_test, y_test, verbose=0)
-    #print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
+        # evaluate loaded model on test data
+        loaded_model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
+        #score = loaded_model.evaluate(x_test, y_test, verbose=0)
+        #print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
     
-    #test_score, test_acc = loaded_model.evaluate(x_test, y_test, batch_size=100)
-    #print('Test Score: %1.4f' % test_score)
-    #print('Test Accuracy: %1.4f' % test_acc)
+        #test_score, test_acc = loaded_model.evaluate(x_test, y_test, batch_size=100)
+        #print('Test Score: %1.4f' % test_score)
+        #print('Test Accuracy: %1.4f' % test_acc)
  
-    prediction = loaded_model.predict(x_test)
-    predict_classes = prediction.argmax(axis=-1)
+        prediction = loaded_model.predict(x_test)
+        predict_classes = prediction.argmax(axis=-1)
 
-    sen = []
-    for i in range(len(predict_classes)):
-        if predict_classes[i]==0:
-            sen.append('Sentence-'+str(i+1)+' is Past')
-        elif predict_classes[i]==1:
-            sen.append('Sentence-'+str(i+1)+' is Present')
-        else:
-            sen.append('Sentence-'+str(i+1)+' is Future')
-
-    #output = round(prediction[0], 2)
-
-    return render_template('index.html', prediction_text=predict_classes, length=int(len(predict_classes)), sen=lines, name='name')
+        return render_template('index.html', prediction_text=predict_classes, length=int(len(predict_classes)), sen=lines, name='name')
 
 @app.route('/predict_tweet',methods=['POST'])
 def predict_tweet():
@@ -152,45 +145,50 @@ def predict_tweet():
     '''
     for x in request.form.values():
         print(x)
-    y = x
+    
     if os.path.exists('file.txt'):
         os.remove('file.txt')
 
-    os.system('python3 tweep.py -u '+y+' --limit 500 -o file.txt')
+    os.system('python3 tweep.py -u '+x+' --limit 500 -o file.txt')
     texts = []
-    file = open('file.txt', 'r')
-    for line in file:
-        text = line.split('<'+y+'>')[1].strip()
-        text = p.clean(text)
-        text = text.lower().replace('[^\w\s]',' ').replace('\s\s+', ' ')
-        if len(text.split())>3:
-            print(text)
-            texts.append(clean_str(text))
+    if not os.path.exists('file.txt'):
+        print('wrong username')
+        return render_template('index.html', error='error', hname=x)
+    else:
+        y = x
+        file = open('file.txt', 'r')
+        for line in file:
+            text = line.split('<'+y+'>')[1].strip()
+            text = p.clean(text)
+            text = text.lower().replace('[^\w\s]',' ').replace('\s\s+', ' ')
+            if len(text.split())>3:
+                print(text)
+                texts.append(clean_str(text))
 
-    tokenizer = pickle.load(open('tokenizer-train.pkl','rb'))
-    tokenizer.fit_on_texts(texts)
-    sequences = tokenizer.texts_to_sequences(texts)
-    MAX_SEQUENCE_LENGTH = 31
+        tokenizer = pickle.load(open('tokenizer-train.pkl','rb'))
+        tokenizer.fit_on_texts(texts)
+        sequences = tokenizer.texts_to_sequences(texts)
+        MAX_SEQUENCE_LENGTH = 31
     
-    data = pad_sequences(sequences, maxlen=MAX_SEQUENCE_LENGTH, padding='post')
-    indices = np.arange(data.shape[0])
-    data = data[indices]
-    x_test = data[:]
-    json_file = open('model.json', 'r')
-    loaded_model_json = json_file.read()
-    json_file.close()
-    loaded_model = model_from_json(loaded_model_json)
-    loaded_model.load_weights("model.h5")
+        data = pad_sequences(sequences, maxlen=MAX_SEQUENCE_LENGTH, padding='post')
+        indices = np.arange(data.shape[0])
+        data = data[indices]
+        x_test = data[:]
+        json_file = open('model.json', 'r')
+        loaded_model_json = json_file.read()
+        json_file.close()
+        loaded_model = model_from_json(loaded_model_json)
+        loaded_model.load_weights("model.h5")
     
-    # evaluate loaded model on test data
-    loaded_model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
+        # evaluate loaded model on test data
+        loaded_model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
  
-    prediction = loaded_model.predict(x_test)
-    predict_classes = prediction.argmax(axis=-1)
+        prediction = loaded_model.predict(x_test)
+        predict_classes = prediction.argmax(axis=-1)
+    
+        #output = round(prediction[0], 2)
 
-    #output = round(prediction[0], 2)
-
-    return render_template('index.html', prediction_text2=predict_classes, length2=int(len(predict_classes)), user=y)
+        return render_template('index.html', prediction_text2=predict_classes, length2=int(len(predict_classes)), user=y)
 
 if __name__ == "__main__":
     app.run(debug=True)

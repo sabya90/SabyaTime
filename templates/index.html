@@ -48,7 +48,7 @@
 	width:1265px;
 	border-bottom: 1px solid #ede4dd;
 	padding-top:10px;
-	padding-bottom:30px;
+	padding-bottom:10px;
 	
 }
 .columns-container-content h1 {
@@ -101,7 +101,7 @@
 	color:#000000;
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 	margin:0 auto;
-	margin-top:30px;
+	margin-top:20px;
 }
 
 </style>
@@ -131,7 +131,7 @@ border: 1px solid black;
     	<!--<input type="text" name="textdata" placeholder="Write Few Sentences" required="required" />-->
         <table width="100%" align="left" bgcolor="#ffffff" border="0" bordercolor="#c9dea3" rules="none">
         <tr>
-        <td colspan="2" width="50%" bgcolor="#f1f1ef"><h2 align="center"><b>Sentence-level <I>Temporal Orientation</I> Analyser</b></h2></td>
+        <td colspan="2" width="50%" bgcolor="#f1f1ef"><h2 align="center"><b>Person-level <I>Temporal Orientation</I> Analyser</b></h2></td>
         <td width="5%"></td>
         <td width="45%" bgcolor="#ffffff"></td>
         </tr>
@@ -139,7 +139,7 @@ border: 1px solid black;
         <tr>
         <td colspan="2" width="50%" bgcolor="#ffffff"><h3 align="center">Please Write Sentences separated by Newlines. As of now this may give some wrong results. We are yet to fix the final model for general sentences. Although it works quite good for tweets.</h3></td>
         <td width="5%"></td>
-        <td width="45%" bgcolor="#f1f1ef"><h2 align="center"><b>Do you have an Twitter Account? Do you want to know your Temporal Orientation based on your Tweets?</h2></td>
+        <td width="45%" bgcolor="#f1f1ef"><h2 align="center"><b>Do you have a Twitter Account? Do you want to know your Temporal Orientation based on your Tweets?</h2></td>
         </tr>
         
         <tr class="border">
@@ -162,7 +162,29 @@ border: 1px solid black;
         <tr>
         <td colspan="2" align="center" width="50%">
 {%if name%}
-                     {% for i in range(0, length) %} 
+
+      {% set p = [ ] %}
+      {% set pr = [ ] %}
+      {% set f = [ ] %}
+      {% for i in range(0, length) %} 
+             {% if prediction_text[i]==0 %}
+                   {%set __ = p.append(1)%}
+             {% elif prediction_text[i]==1 %}
+                   {%set __ = pr.append(1)%}
+             {% else %}
+                   {%set __ = f.append(1)%}
+             {% endif %}
+      {%endfor%}
+
+      {%if p|length >= pr|length and p|length >= f|length%}
+           Hey!! <I>Your writing says that your focus is more on the <font color='red'>Past</font>.</I>
+      {%elif pr|length >= p|length and pr|length >= f|length%}
+           Hey!! <I>Your writing says that your focus is more on the <font color='red'>Present</font>.</I>
+      {%else%}
+           Hey!! <I>Your writing says that your focus is more on the <font color='red'>Future</font>.</I>
+      {%endif%}
+
+                  <!--   {% for i in range(0, length) %} 
                      {% if prediction_text[i]==0 %}
                      <li>Sentence: <I>'{{sen[i]}}'</I>, Tag: Past</li> 
                      {% elif prediction_text[i]==1 %}
@@ -170,38 +192,49 @@ border: 1px solid black;
                      {% else %}
                      <li>Sentence: <I>'{{sen[i]}}'</I>, Tag: Future</li>
                      {% endif %}
-                     {%endfor%}
-{%endif%}</td>
+                     {%endfor%}-->
+
+
+{%endif%}
+{%if lerror%}
+Hey!!, {{lerror}}!!
+{%endif%}
+</td>
        <td width="5%"></td>
        <td align="center" width="45%">
 {%if user%}
-      {% set p = 0 %}
-      {% set pr = 0 %}
-      {% set f = 0 %}
+      {% set p = [ ] %}
+      {% set pr = [ ] %}
+      {% set f = [ ] %}
       {% for i in range(0, length2) %} 
              {% if prediction_text2[i]==0 %}
-                   {%set p=p+1%}
+                   {%set __ = p.append(1)%}
              {% elif prediction_text2[i]==1 %}
-                   {%set pr=pr+1%}
+                   {%set __ = pr.append(1)%}
              {% else %}
-                   {%set f=f+1%}
+                   {%set __ = f.append(1)%}
              {% endif %}
       {%endfor%}
 
-      {%if (p >= pr) and (p >= f)%}
+      {%if p|length >= pr|length and p|length >= f|length%}
            Hello, {{user}}! <I>You are <font color='red'>past</font> oriented.</I>
-      {%elif (pr >= p) and (pr >= f)%}
+      {%elif pr|length >= p|length and pr|length >= f|length%}
            Hello, {{user}}! <I>You are <font color='red'>present</font> oriented.</I>
       {%else%}
            Hello, {{user}}! <I>You are <font color='red'>future</font> oriented.</I>
       {%endif%}
-{%endif%}</td>
+{%endif%}
+
+{%if error%}
+Hey!!, the username <I>{{hname}}</I> doesnot exist or invalid. Try again!!
+{%endif%}
+</td>
         
        </tr></table>
 </div>
 
-<div class="columns-container-content">
-.
+<div class="columns-container-content noborder">
+&nbsp
 </div>
 <div class="columns-container-content">
 <h3>This Application is based on our work titled <I>"<b>Resolution of Grammatical Tense into Actual Time, and its Application in Time Perspective Study in Tweet Space</b>"</I> which was published in <I><b>PLoS One 2019</b></I>. Please read the paper to understand the context properly. <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0211872" style="text-decoration:none" target="_blank">Paper link here</a>.</h3>
