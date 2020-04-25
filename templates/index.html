@@ -1,41 +1,166 @@
 <!DOCTYPE html>
-<html >
-<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>SABYASACHI TIME API</title>
-  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-  
-<script>
-function myFunction() {
-  var text = "";
-var i;
-for (i = 0; i < 5; i++) {
-  text += "The number is " + i + "<br>";
-} 
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=0">
+  <title>SABYASACHI TIME API</title> 
+<link rel="stylesheet" href="styles.css" type="text/css" />
+<style>
+#wrapper {
+        width:1265px;
+	height:auto;
+	margin:0 auto;
+	text-align:left;
+	overflow:hidden;
 }
-</script>
+
+#columns-container {
+	width:1265px;
+	height:auto;
+	background:#ffffff;
+	clear:both;
+	margin:0 auto;
+	overflow:hidden;
+}
+#columns-wrapper {
+	width:1265px;
+	height:auto;
+	margin:0 auto;
+}
+
+.columns-container-heading {
+	width:972px;
+	border-bottom: 1px solid #ede4dd;
+}
+.columns-container-heading h1 {
+	font-weight:normal;
+	font-size:20px;
+	color:#b42626;
+	padding-bottom:10px;
+}
+.columns-container-heading h2 {
+	font-weight:normal;
+	font-size:18px;
+	color:#9e6659;
+	padding-bottom:10px;
+}
+.columns-container-content {
+	width:1265px;
+	border-bottom: 1px solid #ede4dd;
+	padding-top:10px;
+	padding-bottom:30px;
+	
+}
+.columns-container-content h1 {
+	font-weight:normal;
+	font-size:20px;
+	color:#1e0505;
+}
+.columns-container-content h2 {
+	font-weight:normal;
+	font-size:18px;
+	color:#b42626;
+
+}
+.columns-container-content h3 {
+	font-weight:normal;
+	font-size:16px;
+	color:#000000;
+}
+.columns-container-content h4 {
+	font-weight:normal;
+	font-size:12px;
+	color:#000000;
+	padding-bottom:20px;
+}
+.columns-container-content p {
+	
+	padding-bottom:12px;
+	font-size:14px;
+	color:#5d5c61;
+}
+.columns-container-content li {
+	list-style-type: disc;
+	
+}
+.noborder {
+	border-bottom:none;
+}
+
+#footer {
+	width:1265px;
+	height:100px;
+	margin:0 auto;
+}
+.copy-rights {
+	width:1265px;
+	height:60px;
+	line-height:60px;
+	text-align:center;
+	background:url(../images/bg_footer.png) no-repeat;
+	color:#000000;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+	margin:0 auto;
+	margin-top:30px;
+}
+
+</style>
+<style>
+.border
+{
+border: 1px solid black;
+}
+.button {border-radius: 12px;}
+
+.button:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
 </head>
 
 <body>
- <div class="login">
-	<h1 align="center">Time Psychology Analysis</h1>
+<div id="wrapper">
+<div class="columns-container">
+	<h1 align="center">Time Psychology Analyser</h1>
 
+<div class="columns-container-content">
      <!-- Main Input For Receiving Query to our ML -->
     <form action="{{ url_for('predict')}}"method="post"id="myform"></form>
+    <form action="{{ url_for('predict_tweet')}}"method="post"id="myform2"></form>
     	<!--<input type="text" name="textdata" placeholder="Write Few Sentences" required="required" />-->
-        <table width="40%" border="1" align="center">
-        <tr><td colspan="2">
-        <textarea name="textdata" rows="20" cols="71" placeholder="Write a Few Sentences Separated by Newlines" required="required" form="myform"></textarea>
-        </td></tr>
-        <tr><td width="50%" align="center">
-        <button type="submit" class="btn btn-primary btn-block btn-large" form="myform">Show Results</button></td>
-        <td width="50%" align="center"><button type="reset" class="btn btn-primary btn-block btn-large" form="myform">Reset</button></td>
+        <table width="100%" align="left" bgcolor="#ffffff" border="0" bordercolor="#c9dea3" rules="none">
+        <tr>
+        <td colspan="2" width="50%" bgcolor="#f1f1ef"><h2 align="center"><b>Sentence-level <I>Temporal Orientation</I> Analyser</b></h2></td>
+        <td width="5%"></td>
+        <td width="45%" bgcolor="#ffffff"></td>
         </tr>
-        <tr><td colspan="2" align="center">
+         
+        <tr>
+        <td colspan="2" width="50%" bgcolor="#ffffff"><h3 align="center">Please Write Sentences separated by Newlines. As of now this may give some wrong results. We are yet to fix the final model for general sentences. Although it works quite good for tweets.</h3></td>
+        <td width="5%"></td>
+        <td width="45%" bgcolor="#f1f1ef"><h2 align="center"><b>Do you have an Twitter Account? Do you want to know your Temporal Orientation based on your Tweets?</h2></td>
+        </tr>
+        
+        <tr class="border">
+        <td colspan="2" width="50%" align="center" bgcolor="#ffffff" border="1">
+        <textarea name="textdata" style="font-size: 12pt" rows="10" cols="60" placeholder="Write Sentences Separated by Newlines" required="required" form="myform"></textarea>
+        </td>
+        <td width="5%"></td>
+        <td align="center" width="45%" bgcolor="#ffffff"><h3 align="center" >Enter your exact Twitter username below! Note that upon you press click button your public tweets will be crawled and analysed. We dont have any terms with Twitter. So please write your username on your own consent.</h3><input type="text" name="textdata" size="20" style="font-size: 12pt" placeholder="Paste Exact Twitter Username" required="required" form="myform2"/>
+        </td>
+        </tr>
+
+        <tr><td width="25%" align="right" bgcolor="#f1f1ef">
+        <button type="submit" class="button" form="myform">Show Results</button></td>
+        <td width="25%" align="left" bgcolor="#f1f1ef"><button type="reset" class="button" form="myform">Reset</button></td>
+        <td width="5%"></td>
+        <td width="45%" align="center" bgcolor="#f1f1ef"><button type="submit" class="button" form="myform2">Click</button>
+        </td>
+        </tr>
+         
+        <tr>
+        <td colspan="2" align="center" width="50%">
 {%if name%}
                      {% for i in range(0, length) %} 
                      {% if prediction_text[i]==0 %}
@@ -46,19 +171,9 @@ for (i = 0; i < 5; i++) {
                      <li>Sentence: <I>'{{sen[i]}}'</I>, Tag: Future</li>
                      {% endif %}
                      {%endfor%}
-{%endif%}</td></tr></table>
-    
-   <br>
-   <br>
-
-<form action="{{ url_for('predict_tweet')}}"method="post"id="myform2"></form>
-<table width="40%" border="1" align="center">
-        <tr><td width="50%">
-        <input type="text" name="textdata" placeholder="Paste Exact Twitter Username" required="required" form="myform2"/>
-        </td><td width="50%" align="center">
-        <button type="submit" class="btn btn-primary btn-block btn-large" form="myform2">Click</button></td>
-        </tr>
-        <tr><td colspan="2" align="center">
+{%endif%}</td>
+       <td width="5%"></td>
+       <td align="center" width="45%">
 {%if user%}
       {% set p = 0 %}
       {% set pr = 0 %}
@@ -80,9 +195,23 @@ for (i = 0; i < 5; i++) {
       {%else%}
            Hello, {{user}}! <I>You are <font color='red'>future</font> oriented.</I>
       {%endif%}
-{%endif%}</td></tr></table>
- </div>
+{%endif%}</td>
+        
+       </tr></table>
+</div>
 
-<h2 align="center">Copyright @2020 Sabyasachi, IIT Patna</h2>
+<div class="columns-container-content">
+.
+</div>
+<div class="columns-container-content">
+<h3>This Application is based on our work titled <I>"<b>Resolution of Grammatical Tense into Actual Time, and its Application in Time Perspective Study in Tweet Space</b>"</I> which was published in <I><b>PLoS One 2019</b></I>. Please read the paper to understand the context properly. <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0211872" style="text-decoration:none" target="_blank">Paper link here</a>.</h3>
+</div>
+</div><!--End of columns-container-->
+ </div> <!--End of wrapper-->
+
+<div class="footer">
+  <div class="copy-rights">Copyright &copy; 2020 - All Rights Reserved - Sabyasachi Kamila, Department of CSE, IIT Patna</div>
+</div>
+
 </body>
 </html>
