@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 import os
 import keras
 import preprocessor as p
+from textblob import TextBlob
 
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
@@ -47,6 +48,10 @@ def clean_str(string):
 def home():
     return render_template('index.html')
 
+@app.route('/tweet/')
+def tweet():
+    return render_template('tweet.html')
+
 @app.route('/predict',methods=['POST'])
 def predict():
     '''
@@ -71,7 +76,7 @@ def predict():
 
         #training data processing
         texts = []
-
+        valence = []
     
         #Process the user test data
         #data_user = pd.read_csv('data/temporal-test.tsv', sep='\t')
@@ -85,8 +90,14 @@ def predict():
         #print (texts1)
         for idx in range(0, len(lines)):
             text = BeautifulSoup(lines[idx], "lxml")
-            #print (text)
+            print (text)
             texts.append(clean_str(text.get_text()))
+            if TextBlob(text.get_text()).sentiment.polarity > 0.3:
+                valence.append('Positive')
+            elif TextBlob(text.get_text()).sentiment.polarity < 0.0:
+                valence.append('Negative')
+            else:
+                valence.append('Neutral')
             #labels.append(data_user.temporality[idx])
     
         # Tokenize the data    
@@ -136,7 +147,9 @@ def predict():
         prediction = loaded_model.predict(x_test)
         predict_classes = prediction.argmax(axis=-1)
 
-        return render_template('index.html', prediction_text=predict_classes, length=int(len(predict_classes)), sen=lines, name='name')
+        #Valence
+        val = max(set(valence), key = valence.count)
+        return render_template('index.html', prediction_text=predict_classes, length=int(len(predict_classes)), sen=lines, name='name', val=val)
 
 @app.route('/predict_tweet',methods=['POST'])
 def predict_tweet():
@@ -151,9 +164,10 @@ def predict_tweet():
 
     os.system('python3 tweep.py -u '+x+' --limit 500 -o file.txt')
     texts = []
+    valence = []
     if not os.path.exists('file.txt'):
         print('wrong username')
-        return render_template('index.html', error='error', hname=x)
+        return render_template('tweet.html', error='error', hname=x)
     else:
         y = x
         file = open('file.txt', 'r')
@@ -163,7 +177,14 @@ def predict_tweet():
             text = text.lower().replace('[^\w\s]',' ').replace('\s\s+', ' ')
             if len(text.split())>3:
                 print(text)
-                texts.append(clean_str(text))
+                text = clean_str(text)
+                texts.append(text)
+                if TextBlob(text).sentiment.polarity > 0.3:
+                    valence.append('Positive')
+                elif TextBlob(text).sentiment.polarity < 0.0:
+                    valence.append('Negative')
+                else:
+                    valence.append('Neutral')
 
         tokenizer = pickle.load(open('tokenizer-train.pkl','rb'))
         tokenizer.fit_on_texts(texts)
@@ -187,8 +208,10 @@ def predict_tweet():
         predict_classes = prediction.argmax(axis=-1)
     
         #output = round(prediction[0], 2)
-
-        return render_template('index.html', prediction_text2=predict_classes, length2=int(len(predict_classes)), user=y)
+        #Valence
+        #Valence
+        val = max(set(valence), key = valence.count)
+        return render_template('tweet.html', prediction_text2=predict_classes, length2=int(len(predict_classes)), user=y, xval=val)
 
 if __name__ == "__main__":
     app.run(debug=True)

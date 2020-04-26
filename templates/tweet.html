@@ -105,20 +105,17 @@
 }
 
 </style>
-
 <style>
 .border
 {
 border: 1px solid black;
 }
-.button {border-radius: 4px;}
+.button {border-radius: 12px;}
 
 .button:hover {
   background-color: #4CAF50;
   color: white;
 }
-
-
 </style>
 <style>
 .button {
@@ -143,23 +140,20 @@ border: 1px solid black;
 
 .button2:hover {
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+
+
 }
 .disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 </style>
-
 </head>
 
 <body>
 <div id="wrapper">
 <div class="columns-container">
 	<h1 align="center">Human Time Perspective Analyser</h1>
-
-<!--<a href="{{ url_for('home') }}">Home</a>
-<a href="{{ url_for('tweet') }}">Tweet</a></li>-->
-
 <form action="{{ url_for('home')}}" id="home"></form>
 <form action="{{ url_for('tweet')}}" id="tweet"></form>
 <p align="center">
@@ -168,54 +162,47 @@ border: 1px solid black;
 <button type="submit" class="button disabled">Documentation</button>
 <button type="submit" class="button disabled">Application</button>
 </p>
-
-
 <div class="columns-container-content">
      <!-- Main Input For Receiving Query to our ML -->
-    <form action="{{ url_for('predict')}}"method="post"id="myform"></form>
+
     <form action="{{ url_for('predict_tweet')}}"method="post"id="myform2"></form>
     	<!--<input type="text" name="textdata" placeholder="Write Few Sentences" required="required" />-->
-        <table width="70%" align="center" bgcolor="#ffffff" border="0" rules="none">
+
+
+
+        <table width="70%" align="center" bgcolor="#ffffff" border="0" bordercolor="#c9dea3" rules="none">
         <tr>
-
-        <td width="50%" bgcolor="#f1f1ef" align="center"><h2 align="center"><b>Human Time Perspective (General)</b></h2></td>
-
+        
+        <td width="50%" bgcolor="#ffffff"></td>
         </tr>
          
         <tr>
-
-        <td width="50%" bgcolor="#ffffff" align="center"><h3 align="center">Please write sentences separated by Newlines. As of now this may give some wrong results. We are yet to fix the final model for general sentences. Although it works quite good for tweets.</h3></td>
- 
+        
+        <td width="50%" bgcolor="#f1f1ef"><h2 align="center"><b>Human Time Perspective (using Twitter)</h2></td>
         </tr>
         
         <tr class="border">
-
-        <td width="50%" bgcolor="#ffffff" border="1" align="center">
-        <textarea name="textdata" style="font-size: 12pt" rows="10" cols="60" placeholder="Write atleast Three Sentences Separated by Newlines" required="required" form="myform"></textarea>
+        
+        <td align="center" width="50%" bgcolor="#ffffff"><h3 align="center" >Enter your exact Twitter username below! Note that upon you press click button your public tweets will be crawled and analysed. We dont have any terms with Twitter. So please write your username on your own consent.</h3><input type="text" name="textdata" size="20" style="font-size: 12pt" placeholder="Paste Exact Twitter Username" required="required" form="myform2"/>
         </td>
-
-       
         </tr>
 
-        <tr><td width="50%" bgcolor="#f1f1ef" align="center">
-        <button type="submit" form="myform">Show Results</button><button type="reset" form="myform">Reset</button></td>
-
-  
-    
+        <tr>
+        <td width="50%" align="center" bgcolor="#f1f1ef"><button type="submit" form="myform2">Click</button>
+        </td>
         </tr>
          
         <tr>
 
-        <td align="center" width="50%">
-{%if name%}
-
+       <td align="center" width="50%">
+{%if user%}
       {% set p = [ ] %}
       {% set pr = [ ] %}
       {% set f = [ ] %}
-      {% for i in range(0, length) %} 
-             {% if prediction_text[i]==0 %}
+      {% for i in range(0, length2) %} 
+             {% if prediction_text2[i]==0 %}
                    {%set __ = p.append(1)%}
-             {% elif prediction_text[i]==1 %}
+             {% elif prediction_text2[i]==1 %}
                    {%set __ = pr.append(1)%}
              {% else %}
                    {%set __ = f.append(1)%}
@@ -223,30 +210,18 @@ border: 1px solid black;
       {%endfor%}
 
       {%if p|length >= pr|length and p|length >= f|length%}
-           Hey!! <I>Your writing says that your focus is more on the <font color='red'>Past</font> and most of them are <font color='blue'>{{val}}.</font>.</I>
+           Hello, {{user}}! <I>You are <font color='red'>Past</font> oriented. Most of your tweets have <font color="blue">{{xval}}</font> sentiment</I>
       {%elif pr|length >= p|length and pr|length >= f|length%}
-           Hey!! <I>Your writing says that your focus is more on the <font color='red'>Present</font> and most of them are <font color='blue'>{{val}}.</I>
+           Hello, {{user}}! <I>You are <font color='red'>Present</font> oriented. Most of your tweets have <font color="blue">{{xval}}</font> sentiment</I>
       {%else%}
-           Hey!! <I>Your writing says that your focus is more on the <font color='red'>Future</font> and most of them are <font color='blue'>{{val}}.</I>
+           Hello, {{user}}! <I>You are <font color='red'>Future</font> oriented. Most of your tweets have <font color="blue">{{xval}}</font> sentiment</I>
       {%endif%}
-
-                  <!--   {% for i in range(0, length) %} 
-                     {% if prediction_text[i]==0 %}
-                     <li>Sentence: <I>'{{sen[i]}}'</I>, Tag: Past</li> 
-                     {% elif prediction_text[i]==1 %}
-                     <li>Sentence: <I>'{{sen[i]}}'</I>, Tag: Present</li> 
-                     {% else %}
-                     <li>Sentence: <I>'{{sen[i]}}'</I>, Tag: Future</li>
-                     {% endif %}
-                     {%endfor%}-->
-
-
 {%endif%}
-{%if lerror%}
-<font color="red">Hey!!, {{lerror}}!!</font>
+
+{%if error%}
+<font color="red">Hey!!, the username <I>{{hname}}</I> doesnot exist or invalid. Try again!!</font>
 {%endif%}
 </td>
-   
         
        </tr></table>
 </div>
