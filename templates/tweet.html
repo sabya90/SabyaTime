@@ -110,9 +110,42 @@
 {
 border: 1px solid black;
 }
-.button {border-radius: 12px;}
+.myButton {
+	box-shadow: 3px 4px 0px 0px #899599;
+	background-color:#ededed;
+	border-radius:4px;
+	border:1px solid #d6bcd6;
+	display:inline-block;
+	cursor:pointer;
+	color:#3a8a9e;
+	font-family:Arial;
+	font-size:14px;
+	padding:4px 18px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #e1e2ed;
+}
+.myButton:hover {
+	background-color:#bab1ba;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
 
-.button:hover {
+.button3 {
+  border-radius: 4px;
+  border-top:	2px solid #a3ceda;
+  border-left:	2px solid #a3ceda;
+  border-right:	2px solid #4f6267;
+  border-bottom:2px solid #4f6267;
+  padding: 6px 10px !important;
+  font-size: 14px !important;
+  background-color: #f1f1ef;
+  font-weight:	normal;
+  color: #2d525d;
+}
+
+.button3:hover {
   background-color: #4CAF50;
   color: white;
 }
@@ -170,31 +203,18 @@ border: 1px solid black;
 
 
 
-        <table width="100%" align="center" bgcolor="#ffffff" border="0" rules="none">
-        <tr>
-        
-        <td width="50%" bgcolor="#ffffff"></td>
-        </tr>
-         
-        <tr>
-        
-        <td width="50%" bgcolor="#f1f1ef"><h2 align="center"><b>Human Time Perspective (using Twitter)</h2></td>
-        </tr>
-        
-        <tr>
-        
-        <td align="center" width="50%" bgcolor="#ffffff"><h3 align="center" >Enter your exact Twitter username below! Note that upon you press click button your public tweets will be crawled and analysed. We dont have any terms with Twitter. So please write your username on your own consent.</h3><input type="text" name="textdata" size="20" style="font-size: 12pt" placeholder="Paste Exact Twitter Username" required="required" form="myform2"/>
-        </td>
-        </tr>
+        <h2 align="center"><b>Human Time Perspective (using Twitter)</b></h2>
+        <h3 align="center" >Enter your exact Twitter username below! </h3>
+<p align="center" >Note that upon you press click button your public tweets will be crawled and analysed.<br>We dont have any terms with Twitter. So please write your username on your own consent.</p>
 
-        <tr>
-        <td width="50%" align="center" bgcolor="#f1f1ef"><button type="submit" form="myform2">Click</button>
-        </td>
-        </tr>
-         
-        <tr>
 
-       <td align="center" width="50%">
+<div align="center"><input type="text" name="textdata" size="20" style="font-size: 12pt" placeholder="Paste Exact Twitter Username" required="required" form="myform2"/></div>
+<br>
+<div align="center">
+        <button type="submit" class="myButton" form="myform2">Click</button>
+</div>
+<br>
+      <div align="center">  
 {%if user%}
       {% set p = [ ] %}
       {% set pr = [ ] %}
@@ -221,17 +241,13 @@ border: 1px solid black;
 {%if error%}
 <font color="red">Hey!!, the username <I>{{hname}}</I> doesnot exist or invalid. Try again!!</font>
 {%endif%}
-</td>
-        
-       </tr></table>
+</div>
 </div>
 
-<div class="columns-container-content noborder">
-&nbsp
-</div>
+<!--
 <div class="columns-container-content">
 <h3>This Application is based on our work titled <I>"<b>Resolution of Grammatical Tense into Actual Time, and its Application in Time Perspective Study in Tweet Space</b>"</I> which was published in <I><b>PLoS One 2019</b></I>. Please read the paper to understand the context properly. <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0211872" style="text-decoration:none" target="_blank">Paper link here</a>.</h3>
-</div>
+</div>-->
 </div><!--End of columns-container-->
  </div> <!--End of wrapper-->
 

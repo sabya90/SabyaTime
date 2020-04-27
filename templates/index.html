@@ -111,9 +111,42 @@
 {
 border: 1px solid black;
 }
-.button {border-radius: 4px;}
+.myButton {
+	box-shadow: 3px 4px 0px 0px #899599;
+	background-color:#ededed;
+	border-radius:4px;
+	border:1px solid #d6bcd6;
+	display:inline-block;
+	cursor:pointer;
+	color:#3a8a9e;
+	font-family:Arial;
+	font-size:14px;
+	padding:4px 18px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #e1e2ed;
+}
+.myButton:hover {
+	background-color:#bab1ba;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
 
-.button:hover {
+.button3 {
+  border-radius: 4px;
+  border-top:	2px solid #a3ceda;
+  border-left:	2px solid #a3ceda;
+  border-right:	2px solid #4f6267;
+  border-bottom:2px solid #4f6267;
+  padding: 6px 10px !important;
+  font-size: 14px !important;
+  background-color: #f1f1ef;
+  font-weight:	normal;
+  color: #2d525d;
+}
+
+.button3:hover {
   background-color: #4CAF50;
   color: white;
 }
@@ -175,38 +208,20 @@ border: 1px solid black;
     <form action="{{ url_for('predict')}}"method="post"id="myform"></form>
     <form action="{{ url_for('predict_tweet')}}"method="post"id="myform2"></form>
     	<!--<input type="text" name="textdata" placeholder="Write Few Sentences" required="required" />-->
-        <table width="100%" align="center" bgcolor="#ffffff" border="0" rules="none">
-        <tr>
 
-        <td width="50%" bgcolor="#f1f1ef" align="center"><h2 align="center"><b>Human Time Perspective (General)</b></h2></td>
 
-        </tr>
-         
-        <tr>
+        <h2 align="center"><b>Human Time Perspective (General)</b></h2>
 
-        <td width="50%" bgcolor="#ffffff" align="center"><h3 align="center">Please write sentences separated by Newlines. As of now this may give some wrong results. We are yet to fix the final model for general sentences. Although it works quite good for tweets.</h3></td>
- 
-        </tr>
-        
-        <tr>
 
-        <td width="50%" bgcolor="#ffffff" align="center">
-        <textarea name="textdata" style="font-size: 12pt" rows="10" cols="60" placeholder="Write atleast Three Sentences Separated by Newlines" required="required" form="myform"></textarea>
-        </td>
+        <h3 align="center">Please write atleast three sentences separated by newlines.</h3>
 
-       
-        </tr>
-
-        <tr><td width="50%" bgcolor="#f1f1ef" align="center">
-        <button type="submit" form="myform">Show Results</button><button type="reset" form="myform">Reset</button></td>
-
-  
-    
-        </tr>
-         
-        <tr>
-
-        <td align="center" width="50%">
+        <div align="center"><textarea name="textdata" style="font-size: 12pt" rows="10" cols="60" placeholder="Write atleast Three Sentences Separated by Newlines" required="required" form="myform"></textarea></div>
+  <br>
+        <div align="center">
+<button type="submit" class="myButton" form="myform">Show Results</button>&nbsp
+<button type="reset" class="myButton" form="myform">Reset</button></div>
+<br>
+<div align="center">
 {%if name%}
 
       {% set p = [ ] %}
@@ -245,18 +260,13 @@ border: 1px solid black;
 {%if lerror%}
 <font color="red">Hey!!, {{lerror}}!!</font>
 {%endif%}
-</td>
-   
-        
-       </tr></table>
+</div>
 </div>
 
-<div class="columns-container-content noborder">
-&nbsp
-</div>
+<!--
 <div class="columns-container-content">
 <h3>This Application is based on our work titled <I>"<b>Resolution of Grammatical Tense into Actual Time, and its Application in Time Perspective Study in Tweet Space</b>"</I> which was published in <I><b>PLoS One 2019</b></I>. Please read the paper to understand the context properly. <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0211872" style="text-decoration:none" target="_blank">Paper link here</a>.</h3>
-</div>
+</div>-->
 </div><!--End of columns-container-->
  </div> <!--End of wrapper-->
 
