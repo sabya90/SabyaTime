@@ -18,3 +18,4 @@ aiohttp
 aiodns
 cchardet
 elasticsearch
+textblob
