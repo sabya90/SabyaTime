@@ -59,17 +59,25 @@ def predict():
     '''
     for x in request.form.values():
         print(x)
-    #line = x
-    #print(line)
-    lines = x.split('\r\n')
+    line = x
+    #print(xx)
+    #lines = x.split('\r\n')
+    lines = []
+    
+    lines.extend(re.split('[?.!\r\n]', line.lstrip()))
+    lines = [a.strip() for a in lines]
+    lines = list(filter(None,lines))
+    lines = list(filter(str.strip, lines))
+    lines = [item for item in lines if len(item.split())>1]
+    #print(lines)
     if len(lines)<3:
-        return render_template('index.html', lerror='Please write atleast Three sentences!')
+        return render_template('index.html', lerror='Please write atleast three proper sentences!')
     elif len(lines)>50:
         return render_template('index.html', lerror='Number of Sentences Exceed current Support!')
     #print(y)
     #line = re.sub(' +', ' ', y)
     else:
-        print(lines)
+        #print(lines)
         #int_features = [int(x) for x in request.form.values()]
         #final_features = [np.array(int_features)]
         #prediction = model.predict(final_features)
@@ -90,7 +98,7 @@ def predict():
         #print (texts1)
         for idx in range(0, len(lines)):
             text = BeautifulSoup(lines[idx], "lxml")
-            print (text)
+            #print (text)
             texts.append(clean_str(text.get_text()))
             if TextBlob(text.get_text()).sentiment.polarity > 0.3:
                 valence.append('Positive')
@@ -166,7 +174,7 @@ def predict_tweet():
     texts = []
     valence = []
     if not os.path.exists('file.txt'):
-        print('wrong username')
+        #print('wrong username')
         return render_template('tweet.html', error='error', hname=x)
     else:
         y = x
@@ -175,8 +183,8 @@ def predict_tweet():
             text = line.split('<'+y+'>')[1].strip()
             text = p.clean(text)
             text = text.lower().replace('[^\w\s]',' ').replace('\s\s+', ' ')
-            if len(text.split())>3:
-                print(text)
+            if len(text.split())>2:
+                #print(text)
                 text = clean_str(text)
                 texts.append(text)
                 if TextBlob(text).sentiment.polarity > 0.3:
