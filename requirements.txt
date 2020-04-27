@@ -19,3 +19,4 @@ aiodns
 cchardet
 elasticsearch
 textblob
+nltk
