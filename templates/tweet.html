@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SABYASACHI TIME API</title> 
+<link rel="stylesheet" href="styles.css" type="text/css" />
+<style>
+#wrapper {
+        width:1265px;
+	height:auto;
+	margin:0 auto;
+	text-align:left;
+	overflow:hidden;
+}
+
+#columns-container {
+	width:1265px;
+	height:auto;
+	background:#ffffff;
+	clear:both;
+	margin:0 auto;
+	overflow:hidden;
+}
+#columns-wrapper {
+	width:1265px;
+	height:auto;
+	margin:0 auto;
+}
+
+.columns-container-heading {
+	width:972px;
+	border-bottom: 1px solid #ede4dd;
+}
+.columns-container-heading h1 {
+	font-weight:normal;
+	font-size:20px;
+	color:#b42626;
+	padding-bottom:10px;
+}
+.columns-container-heading h2 {
+	font-weight:normal;
+	font-size:18px;
+	color:#9e6659;
+	padding-bottom:10px;
+}
+.columns-container-content {
+	width:1265px;
+	border-bottom: 1px solid #ede4dd;
+	padding-top:10px;
+	padding-bottom:10px;
+	
+}
+.columns-container-content h1 {
+	font-weight:normal;
+	font-size:20px;
+	color:#1e0505;
+}
+.columns-container-content h2 {
+	font-weight:normal;
+	font-size:18px;
+	color:#b42626;
+
+}
+.columns-container-content h3 {
+	font-weight:normal;
+	font-size:16px;
+	color:#000000;
+}
+.columns-container-content h4 {
+	font-weight:normal;
+	font-size:12px;
+	color:#000000;
+	padding-bottom:20px;
+}
+.columns-container-content p {
+	
+	padding-bottom:12px;
+	font-size:14px;
+	color:#5d5c61;
+}
+.columns-container-content li {
+	list-style-type: disc;
+	
+}
+.noborder {
+	border-bottom:none;
+}
+
+#footer {
+	width:1265px;
+	height:100px;
+	margin:0 auto;
+}
+.copy-rights {
+	width:1265px;
+	height:60px;
+	line-height:60px;
+	text-align:center;
+	background:url(../images/bg_footer.png) no-repeat;
+	color:#000000;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+	margin:0 auto;
+	margin-top:5px;
+}
+
+</style>
+<style>
+.border
+{
+border: 1px solid black;
+}
+.button {border-radius: 12px;}
+
+.button:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+<style>
+.button {
+  background-color: #071a6a; /* Green */
+  border: none;
+  border-radius: 4px;
+  color: white;
+  padding: 8px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.button1 {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.button2:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+
+
+}
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+</style>
+</head>
+
+<body>
+<div id="wrapper">
+<div class="columns-container">
+	<h1 align="center">Human Time Perspective Analyser</h1>
+<form action="{{ url_for('home')}}" id="home"></form>
+<form action="{{ url_for('tweet')}}" id="tweet"></form>
+<p align="center">
+<button type="submit" class="button button2" form="home">General</button>
+<button type="submit" class="button button2" form="tweet">Tweet-based</button>
+<button type="submit" class="button disabled">Documentation</button>
+<button type="submit" class="button disabled">Application</button>
+</p>
+<div class="columns-container-content">
+     <!-- Main Input For Receiving Query to our ML -->
+
+    <form action="{{ url_for('predict_tweet')}}"method="post"id="myform2"></form>
+    	<!--<input type="text" name="textdata" placeholder="Write Few Sentences" required="required" />-->
+
+
+
+        <table width="70%" align="center" bgcolor="#ffffff" border="0" bordercolor="#c9dea3" rules="none">
+        <tr>
+        
+        <td width="50%" bgcolor="#ffffff"></td>
+        </tr>
+         
+        <tr>
+        
+        <td width="50%" bgcolor="#f1f1ef"><h2 align="center"><b>Human Time Perspective (using Twitter)</h2></td>
+        </tr>
+        
+        <tr class="border">
+        
+        <td align="center" width="50%" bgcolor="#ffffff"><h3 align="center" >Enter your exact Twitter username below! Note that upon you press click button your public tweets will be crawled and analysed. We dont have any terms with Twitter. So please write your username on your own consent.</h3><input type="text" name="textdata" size="20" style="font-size: 12pt" placeholder="Paste Exact Twitter Username" required="required" form="myform2"/>
+        </td>
+        </tr>
+
+        <tr>
+        <td width="50%" align="center" bgcolor="#f1f1ef"><button type="submit" form="myform2">Click</button>
+        </td>
+        </tr>
+         
+        <tr>
+
+       <td align="center" width="50%">
+{%if user%}
+      {% set p = [ ] %}
+      {% set pr = [ ] %}
+      {% set f = [ ] %}
+      {% for i in range(0, length2) %} 
+             {% if prediction_text2[i]==0 %}
+                   {%set __ = p.append(1)%}
+             {% elif prediction_text2[i]==1 %}
+                   {%set __ = pr.append(1)%}
+             {% else %}
+                   {%set __ = f.append(1)%}
+             {% endif %}
+      {%endfor%}
+
+      {%if p|length >= pr|length and p|length >= f|length%}
+           Hello, {{user}}! <I>You are <font color='red'>Past</font> oriented. Most of your tweets have <font color="blue">{{xval}}</font> sentiment</I>
+      {%elif pr|length >= p|length and pr|length >= f|length%}
+           Hello, {{user}}! <I>You are <font color='red'>Present</font> oriented. Most of your tweets have <font color="blue">{{xval}}</font> sentiment</I>
+      {%else%}
+           Hello, {{user}}! <I>You are <font color='red'>Future</font> oriented. Most of your tweets have <font color="blue">{{xval}}</font> sentiment</I>
+      {%endif%}
+{%endif%}
+
+{%if error%}
+<font color="red">Hey!!, the username <I>{{hname}}</I> doesnot exist or invalid. Try again!!</font>
+{%endif%}
+</td>
+        
+       </tr></table>
+</div>
+
+<div class="columns-container-content noborder">
+&nbsp
+</div>
+<div class="columns-container-content">
+<h3>This Application is based on our work titled <I>"<b>Resolution of Grammatical Tense into Actual Time, and its Application in Time Perspective Study in Tweet Space</b>"</I> which was published in <I><b>PLoS One 2019</b></I>. Please read the paper to understand the context properly. <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0211872" style="text-decoration:none" target="_blank">Paper link here</a>.</h3>
+</div>
+</div><!--End of columns-container-->
+ </div> <!--End of wrapper-->
+
+<div class="footer">
+  <div class="copy-rights">Copyright &copy; 2020 - All Rights Reserved - Sabyasachi Kamila, Department of CSE, IIT Patna</div>
+</div>
+
+</body>
+</html>
