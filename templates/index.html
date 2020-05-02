@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1">
   <title>SABYASACHI TIME API</title> 
-<link rel="stylesheet" href="styles.css" type="text/css" />
+<link rel="stylesheet" href="style.css" type="text/css" />
 <style>
 #wrapper {
         width:1265px;
@@ -210,12 +210,12 @@ border: 1px solid black;
     	<!--<input type="text" name="textdata" placeholder="Write Few Sentences" required="required" />-->
 
 
-        <h2 align="center"><b>Human Time Perspective (General)</b></h2>
+        <h2 align="center"><b>Human Time Perspective (General Text)</b></h2>
 
 
-        <h3 align="center">Please write atleast three proper sentences.</h3>
+        <!--<h3 align="center">Please write atleast three proper sentences.</h3>-->
 
-        <div align="center"><textarea name="textdata" style="font-size: 12pt" rows="10" cols="60" placeholder="Write atleast three proper sentences" required="required" form="myform"></textarea></div>
+        <div align="center"><textarea name="textdata" style="font-size: 12pt" rows="10" cols="60" placeholder="Write atleast three proper sentences" required="required" form="myform">{%if sen%}{{sen}}{%endif%}</textarea></div>
   <br>
         <div align="center">
 <button type="submit" class="myButton" form="myform">Show Results</button>&nbsp
@@ -236,6 +236,7 @@ border: 1px solid black;
                    {%set __ = f.append(1)%}
              {% endif %}
       {%endfor%}
+      <h1><font color="blue"><b>Your Temporal Profile</b></font><br>------------------------------------------------------------</h1>
 
       {%if p|length >= pr|length and p|length >= f|length%}
            Hey!! <I>Your writing says that your focus is more on the <font color='red'>Past</font> and most of them are <font color='blue'>{{val}}.</font>.</I>
@@ -245,13 +246,20 @@ border: 1px solid black;
            Hey!! <I>Your writing says that your focus is more on the <font color='red'>Future</font> and most of them are <font color='blue'>{{val}}.</I>
       {%endif%}
 
-                  <!--   {% for i in range(0, length) %} 
+      <h3>Here is detailed analysis of your Temporal Profile.</h3>
+      
+      <li>{{tp_list[0]}}%; {{tp_list[1]}}%; {{tp_list[2]}}%</li>
+      <li>{{tp_list[3]}}%; {{tp_list[4]}}%; {{tp_list[5]}}%</li>
+      <li>{{tp_list[6]}}%; {{tp_list[7]}}%; {{tp_list[8]}}%</li>
+
+
+                   <!--  {% for i in range(0, length) %} 
                      {% if prediction_text[i]==0 %}
-                     <li>Sentence: <I>'{{sen[i]}}'</I>, Tag: Past</li> 
+                     <li>Sentence: <I>'{{sen2[i]}}'</I>, Tag: Past</li> 
                      {% elif prediction_text[i]==1 %}
-                     <li>Sentence: <I>'{{sen[i]}}'</I>, Tag: Present</li> 
+                     <li>Sentence: <I>'{{sen2[i]}}'</I>, Tag: Present</li> 
                      {% else %}
-                     <li>Sentence: <I>'{{sen[i]}}'</I>, Tag: Future</li>
+                     <li>Sentence: <I>'{{sen2[i]}}'</I>, Tag: Future</li>
                      {% endif %}
                      {%endfor%}-->
 

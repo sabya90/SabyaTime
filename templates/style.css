@@ -1,0 +1,235 @@
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
+/* Styles */
+}
+
+/* Smartphones (landscape) ----------- */
+@media only screen 
+and (min-width : 321px) {
+/* Styles */
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen 
+and (max-width : 320px) {
+/* Styles */
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+/* Styles */
+}
+
+/* iPads (landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape) {
+/* Styles */
+}
+
+/* iPads (portrait) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) {
+/* Styles */
+}
+
+/* Desktops and laptops ----------- */
+@media only screen 
+and (min-width : 1224px) {
+/* Styles */
+}
+
+/* Large screens ----------- */
+@media only screen 
+and (min-width : 1824px) {
+/* Styles */
+}
+
+/* iPhone 4 ----------- */
+@media
+only screen and (-webkit-min-device-pixel-ratio : 1.5),
+only screen and (min-device-pixel-ratio : 1.5) {
+/* Styles */
+}
+
+
+#wrapper {
+        width:1265px;
+	height:auto;
+	margin:0 auto;
+	text-align:left;
+	overflow:hidden;
+}
+
+#columns-container {
+	width:1265px;
+	height:auto;
+	background:#ffffff;
+	clear:both;
+	margin:0 auto;
+	overflow:hidden;
+}
+#columns-wrapper {
+	width:1265px;
+	height:auto;
+	margin:0 auto;
+}
+
+.columns-container-heading {
+	width:972px;
+	border-bottom: 1px solid #ede4dd;
+}
+.columns-container-heading h1 {
+	font-weight:normal;
+	font-size:20px;
+	color:#b42626;
+	padding-bottom:10px;
+}
+.columns-container-heading h2 {
+	font-weight:normal;
+	font-size:18px;
+	color:#9e6659;
+	padding-bottom:10px;
+}
+.columns-container-content {
+	width:1265px;
+	border-bottom: 1px solid #ede4dd;
+	padding-top:10px;
+	padding-bottom:10px;
+	
+}
+.columns-container-content h1 {
+	font-weight:normal;
+	font-size:20px;
+	color:#1e0505;
+}
+.columns-container-content h2 {
+	font-weight:normal;
+	font-size:18px;
+	color:#b42626;
+
+}
+.columns-container-content h3 {
+	font-weight:normal;
+	font-size:16px;
+	color:#000000;
+}
+.columns-container-content h4 {
+	font-weight:normal;
+	font-size:12px;
+	color:#000000;
+	padding-bottom:20px;
+}
+.columns-container-content p {
+	
+	padding-bottom:12px;
+	font-size:14px;
+	color:#5d5c61;
+}
+.columns-container-content li {
+	list-style-type: disc;
+	
+}
+.noborder {
+	border-bottom:none;
+}
+
+#footer {
+	width:1265px;
+	height:100px;
+	margin:0 auto;
+}
+.copy-rights {
+	width:1265px;
+	height:60px;
+	line-height:60px;
+	text-align:center;
+	background:url(../images/bg_footer.png) no-repeat;
+	color:#000000;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+	margin:0 auto;
+	margin-top:5px;
+}
+
+
+.border
+{
+border: 1px solid black;
+}
+.myButton {
+	box-shadow: 3px 4px 0px 0px #899599;
+	background-color:#ededed;
+	border-radius:4px;
+	border:1px solid #d6bcd6;
+	display:inline-block;
+	cursor:pointer;
+	color:#3a8a9e;
+	font-family:Arial;
+	font-size:14px;
+	padding:4px 18px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #e1e2ed;
+}
+.myButton:hover {
+	background-color:#bab1ba;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+.button3 {
+  border-radius: 4px;
+  border-top:	2px solid #a3ceda;
+  border-left:	2px solid #a3ceda;
+  border-right:	2px solid #4f6267;
+  border-bottom:2px solid #4f6267;
+  padding: 6px 10px !important;
+  font-size: 14px !important;
+  background-color: #f1f1ef;
+  font-weight:	normal;
+  color: #2d525d;
+}
+
+.button3:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+
+.button {
+  background-color: #071a6a; /* Green */
+  border: none;
+  border-radius: 4px;
+  color: white;
+  padding: 8px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.button1 {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.button2:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+

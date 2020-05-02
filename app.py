@@ -71,7 +71,7 @@ def predict():
     lines = [item for item in lines if len(item.split())>1]
     #print(lines)
     if len(lines)<3:
-        return render_template('index.html', lerror='Please write atleast three proper sentences!')
+        return render_template('index.html', lerror='Please write atleast three proper sentences!', sen=x)
     elif len(lines)>50:
         return render_template('index.html', lerror='Number of Sentences Exceed current Support!')
     #print(y)
@@ -157,7 +157,52 @@ def predict():
 
         #Valence
         val = max(set(valence), key = valence.count)
-        return render_template('index.html', prediction_text=predict_classes, length=int(len(predict_classes)), sen=lines, name='name', val=val)
+
+        #Calculating Temporal Profile
+        total = len(lines)
+        pp = 0
+        pn = 0
+        pnt = 0
+        prp = 0
+        prn = 0
+        prnt = 0
+        fp = 0
+        fn = 0
+        fnt = 0
+        if len(valence)!=len(lines):
+            print('ERROR!!!')
+        for j in range(0, len(valence)):
+            if predict_classes[j] == 0 and valence[j]=='Positive':
+                pp = pp + 1
+            elif predict_classes[j] == 0 and valence[j]=='Negative':
+                pn = pn + 1
+            elif predict_classes[j] == 0 and valence[j]=='Neutral':
+                pnt = pnt + 1
+            elif predict_classes[j] == 1 and valence[j]=='Positive':
+                prp = prp + 1
+            elif predict_classes[j] == 1 and valence[j]=='Negative':
+                prn = prn + 1
+            elif predict_classes[j] == 1 and valence[j]=='Neutral':
+                prnt = prnt + 1
+            elif predict_classes[j] == 2 and valence[j]=='Positive':
+                fp = fp + 1
+            elif predict_classes[j] == 2 and valence[j]=='Negative':
+                fn = fn + 1
+            elif predict_classes[j] == 2 and valence[j]=='Neutral':
+                fnt = fnt + 1
+        pp_ratio = "{:.2f}".format((pp/total)*100)
+        pn_ratio = "{:.2f}".format((pn/total)*100)
+        pnt_ratio = "{:.2f}".format((pnt/total)*100)
+        prp_ratio = "{:.2f}".format((prp/total)*100)
+        prn_ratio = "{:.2f}".format((prn/total)*100)
+        prnt_ratio = "{:.2f}".format((prnt/total)*100)
+        fp_ratio = "{:.2f}".format((fp/total)*100)
+        fn_ratio = "{:.2f}".format((fn/total)*100)
+        fnt_ratio = "{:.2f}".format((fnt/total)*100)
+
+        tp_list = ['Past Positive: '+str(pp_ratio), 'Past Negative: '+str(pn_ratio), 'Past Neutral: '+str(pnt_ratio), 'Present Positive: '+str(prp_ratio), 'Present Negative: '+str(prn_ratio), 'Present Neutral: '+str(prnt_ratio), 'Future Positive: '+str(fp_ratio), 'Future Negative: '+str(fn_ratio), 'Future Neutral: '+str(fnt_ratio)]
+
+        return render_template('index.html', prediction_text=predict_classes, length=int(len(predict_classes)), sen2=lines, name='name', val=val, tp_list=tp_list)
 
 @app.route('/predict_tweet',methods=['POST'])
 def predict_tweet():
@@ -222,4 +267,5 @@ def predict_tweet():
         return render_template('tweet.html', prediction_text2=predict_classes, length2=int(len(predict_classes)), user=y, xval=val)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    #app.run(debug=True)
+    app.run(host = '0.0.0.0', port = 8080)
