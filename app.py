@@ -267,5 +267,5 @@ def predict_tweet():
         return render_template('tweet.html', prediction_text2=predict_classes, length2=int(len(predict_classes)), user=y, xval=val)
 
 if __name__ == "__main__":
-    #app.run(debug=True)
-    app.run(host = '0.0.0.0', port = 8080)
+    app.run(debug=True)
+    #app.run(host = '0.0.0.0', port = 8080)
